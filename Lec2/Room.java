@@ -12,13 +12,19 @@
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
+
+//change these directions to hashmaps to allow for more directions
+//Key: string of direction
+//Value: Room
 public class Room 
 {
+    private HashMap<String, Room> exits;
     public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
+    public final String NORTH = "north";
+    public final String EAST = "east";
+    public final String SOUTH = "south";
+    public final String WEST = "west";
+    public final String UP = "up";
 
     /**
      * Create a room described "description". Initially, it has
@@ -30,14 +36,11 @@ public class Room
     {
 
         this.description = description;
+        exits = new HashMap<>(); //initialize hashmap
     }
 
     public Room getExits(String direction){
-        if (direction.equals("north")){return northExit;}
-        if (direction.equals("south")){return southExit;}
-        if (direction.equals("east")){return eastExit;}
-        if (direction.equals("west")){return westExit;}
-        return null;
+        return exit.get(direction);//might have to add something to account for null
     }
 
     /**
@@ -48,20 +51,9 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
-    public void setExits(Room north, Room east, Room south, Room west) 
+    public void setExits(String direction, Room room) 
     {
-        if(north != null) {
-            northExit = north;
-        }
-        if(east != null) {
-            eastExit = east;
-        }
-        if(south != null) {
-            southExit = south;
-        }
-        if(west != null) {
-            westExit = west;
-        }
+      exits.put(direction, room);
     }
 
     /**
@@ -71,5 +63,14 @@ public class Room
     {
         return description;
     }
+
+    private void getLongDescription(){
+      System.out.println("You are " + this.getDescription());
+      System.out.print("Exits: ");
+      for (String key: exits.key|Set()){
+        System.out.print(key + " ");
+      }
+      System.out.println();
+  }
 
 }
